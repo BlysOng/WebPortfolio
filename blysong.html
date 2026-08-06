@@ -1,0 +1,2098 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Blys Neil Ong</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700&family=DM+Mono:wght@400;500&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap"
+        rel="stylesheet" />
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+        }
+
+        :root {
+            --bg: #f8f7f4;
+            --surface: #ffffff;
+            --surface2: #f0ede8;
+            --border: rgba(0, 0, 0, 0.08);
+            --border-strong: rgba(0, 0, 0, 0.14);
+            --text: #1a1a1a;
+            --muted: #6b7280;
+            --accent: #1a6b5a;
+            --accent2: #1d5fa6;
+            --accent-dim: rgba(26, 107, 90, 0.08);
+            --accent2-dim: rgba(29, 95, 166, 0.08);
+            --font-display: 'Syne', sans-serif;
+            --font-body: 'DM Sans', sans-serif;
+            --font-mono: 'DM Mono', monospace;
+            --radius: 10px;
+            --radius-lg: 16px;
+        }
+
+        /* ── DARK MODE ── */
+        [data-theme="dark"] {
+            --bg: #111412;
+            --surface: #171b19;
+            --surface2: #1e2321;
+            --border: rgba(255, 255, 255, 0.08);
+            --border-strong: rgba(255, 255, 255, 0.16);
+            --text: #f2f1ee;
+            --muted: #9aa0a6;
+            --accent: #35b295;
+            --accent2: #4d8fd9;
+            --accent-dim: rgba(53, 178, 149, 0.12);
+            --accent2-dim: rgba(77, 143, 217, 0.12);
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: var(--font-body);
+            font-size: 16px;
+            line-height: 1.7;
+            min-height: 100vh;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        /* ── NAV ── */
+        nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 2.5rem;
+            height: 64px;
+            background: rgba(248, 247, 244, 0.9);
+            backdrop-filter: blur(16px);
+            border-bottom: 0.5px solid var(--border);
+            transition: background 0.3s ease, border-color 0.3s ease;
+        }
+
+        [data-theme="dark"] nav { background: rgba(17, 20, 18, 0.85); }
+
+        .nav-right { display: flex; align-items: center; gap: 1.25rem; }
+
+        /* ── THEME TOGGLE ── */
+        .theme-toggle {
+            position: relative;
+            width: 44px; height: 24px;
+            border-radius: 20px;
+            background: var(--surface2);
+            border: 0.5px solid var(--border-strong);
+            cursor: pointer;
+            flex-shrink: 0;
+            transition: background 0.3s ease, border-color 0.3s ease;
+        }
+
+        .theme-toggle-knob {
+            position: absolute;
+            top: 2px; left: 2px;
+            width: 18px; height: 18px;
+            border-radius: 50%;
+            background: var(--accent);
+            display: flex; align-items: center; justify-content: center;
+            transition: transform 0.3s ease, background 0.3s ease;
+        }
+
+        [data-theme="dark"] .theme-toggle-knob { transform: translateX(20px); }
+
+        .theme-toggle-knob svg {
+            width: 11px; height: 11px;
+            stroke: #fff; fill: none; stroke-width: 2;
+        }
+
+        .nav-logo {
+            font-family: var(--font-mono);
+            font-size: 16px;
+            color: var(--accent);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            font-size: 15px;
+            font-weight: 400;
+            color: var(--muted);
+            text-decoration: none;
+            letter-spacing: 0.03em;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover { color: var(--accent); }
+
+        .nav-cta {
+            font-family: var(--font-mono);
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--accent);
+            text-decoration: none;
+            padding: 7px 18px;
+            border: 0.5px solid var(--accent);
+            border-radius: 6px;
+            transition: background 0.2s, color 0.2s;
+        }
+
+        .nav-cta:hover { background: var(--accent); color: #fff; }
+
+        /* ── HERO ── */
+        #hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 6rem 2.5rem 4rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-grid-bg {
+            position: absolute; inset: 0; z-index: 0;
+            background-image:
+                linear-gradient(rgba(26, 107, 90, 0.06) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(26, 107, 90, 0.06) 1px, transparent 1px);
+            background-size: 48px 48px;
+            mask-image: radial-gradient(ellipse 80% 70% at 50% 50%, black 0%, transparent 100%);
+        }
+
+        .hero-glow {
+            position: absolute;
+            top: 20%; left: 50%;
+            transform: translateX(-50%);
+            width: 600px; height: 300px;
+            background: radial-gradient(ellipse, rgba(26, 107, 90, 0.06) 0%, transparent 70%);
+            pointer-events: none; z-index: 0;
+        }
+
+        /* ── HERO CURSOR-TRAIL CANVAS ── */
+        /* Sits above the grid background but below the glow/content, only inside #hero */
+        #hero-cursor-fx {
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            display: block;
+        }
+
+        .hero-inner { position: relative; z-index: 1; max-width: 700px; }
+
+        .hero-tag {
+            display: inline-block;
+            font-family: var(--font-mono);
+            font-size: 11px;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--accent);
+            background: var(--accent-dim);
+            border: 0.5px solid rgba(26, 107, 90, 0.3);
+            padding: 5px 16px;
+            border-radius: 20px;
+            margin-bottom: 1.8rem;
+        }
+
+        .hero-name {
+            font-family: var(--font-display);
+            font-size: clamp(2.8rem, 4vw, 5rem);
+            font-weight: 700;
+            line-height: 1.2;
+            letter-spacing: -0.02em;
+            margin-bottom: 0.6rem;
+            color: var(--text);
+        }
+
+        .hero-name span { color: var(--accent); }
+
+        .hero-title {
+            font-family: var(--font-display);
+            font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+            font-weight: 400;
+            color: var(--muted);
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.01em;
+        }
+
+        .hero-desc {
+            font-size: 16px;
+            font-weight: 300;
+            color: var(--muted);
+            max-width: 600px;
+            margin: 0 auto 2.5rem;
+            line-height: 1.8;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            font-family: var(--font-mono);
+            font-size: 13px; font-weight: 500;
+            color: #fff; background: var(--accent);
+            padding: 12px 28px;
+            border-radius: var(--radius);
+            text-decoration: none;
+            transition: opacity 0.2s, transform 0.15s;
+            letter-spacing: 0.02em;
+        }
+
+        .btn-primary:hover { opacity: 0.88; transform: translateY(-1px); }
+
+        .btn-secondary {
+            font-family: var(--font-mono);
+            font-size: 13px; font-weight: 500;
+            color: var(--text); background: transparent;
+            padding: 12px 28px;
+            border-radius: var(--radius);
+            border: 0.5px solid var(--border-strong);
+            text-decoration: none;
+            transition: border-color 0.2s, transform 0.15s;
+        }
+
+        .btn-secondary:hover { border-color: var(--accent); transform: translateY(-1px); }
+
+        /* ── SECTION WRAPPER ── */
+        section { padding: 6rem 2.5rem; }
+
+        .section-inner { max-width: 1000px; margin: 0 auto; }
+
+        .section-label {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 0.6rem;
+        }
+
+        .section-title {
+            font-family: var(--font-display);
+            font-size: clamp(1.8rem, 3.5vw, 2.4rem);
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 1rem;
+            color: var(--text);
+        }
+
+        .section-desc {
+            font-size: 15px; font-weight: 300;
+            color: var(--muted);
+            max-width: 540px;
+            line-height: 1.8;
+            margin-bottom: 3rem;
+        }
+
+        /* ── ABOUT ── */
+        #about { border-top: 0.5px solid var(--border); }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3.5rem;
+            align-items: start;
+        }
+
+        .about-text p {
+            font-size: 15px; font-weight: 300;
+            color: var(--muted);
+            line-height: 1.85;
+            margin-bottom: 1.2rem;
+        }
+
+        .about-text p strong { color: var(--text); font-weight: 500; }
+
+        .about-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            width: 100%;
+        }
+
+        .stat-card {
+            background: var(--surface);
+            border: 0.5px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 1.4rem;
+            transition: border-color 0.2s;
+        }
+
+        .stat-card:hover { border-color: var(--accent); }
+
+        .stat-num {
+            font-family: var(--font-display);
+            font-size: 2rem; font-weight: 700;
+            color: var(--accent);
+            line-height: 1; margin-bottom: 0.3rem;
+        }
+
+        .stat-label { font-size: 12px; color: var(--muted); }
+
+        /* ── ABOUT PROFILE PHOTO ── */
+        .about-right {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.75rem;
+        }
+
+        .about-photo-wrap {
+            position: relative;
+            width: 220px;
+            height: 220px;
+            flex-shrink: 0;
+        }
+
+        /* Decorative ring behind photo */
+        .about-photo-wrap::before {
+            content: '';
+            position: absolute;
+            inset: -6px;
+            border-radius: 50%;
+            border: 2px solid var(--accent);
+            opacity: 0.35;
+        }
+
+        /* Second outer ring */
+        .about-photo-wrap::after {
+            content: '';
+            position: absolute;
+            inset: -12px;
+            border-radius: 50%;
+            border: 0.5px solid rgba(26, 107, 90, 0.15);
+        }
+
+        .about-photo {
+            width: 220px;
+            height: 220px;
+            border-radius: 50%;
+            object-fit: cover;
+            object-position: center 50%;
+            border: 3px solid var(--surface);
+            box-shadow: 0 8px 32px rgba(26, 107, 90, 0.12);
+            display: block;
+    
+        /* Tells the browser to animate the zoom smoothly over 0.3 seconds */
+            transition: transform 0.3s ease, box-shadow 0.3s ease; 
+        }
+
+        /* ── EXPERIENCE (was Skills) ── */
+        #experience {
+            background: var(--surface);
+            border-top: 0.5px solid var(--border);
+            border-bottom: 0.5px solid var(--border);
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.25rem;
+        }
+
+        .skill-card {
+            background: var(--bg);
+            border: 0.5px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            transition: border-color 0.25s, transform 0.2s;
+            cursor: default;
+        }
+
+        .skill-card:hover { border-color: var(--accent); transform: translateY(-3px); }
+
+        .skill-icon {
+            width: 40px; height: 40px;
+            border-radius: var(--radius);
+            background: var(--accent-dim);
+            display: flex; align-items: center; justify-content: center;
+            margin-bottom: 1rem;
+            font-size: 18px;
+        }
+
+        .skill-icon svg {
+            width: 20px; height: 20px;
+            stroke: var(--accent); fill: none; stroke-width: 1.5;
+        }
+
+        .skill-name {
+            font-family: var(--font-display);
+            font-size: 14px; font-weight: 600;
+            color: var(--text); margin-bottom: 0.5rem;
+        }
+
+        .skill-list { list-style: none; }
+
+        .skill-list li {
+            font-size: 12px; color: var(--muted);
+            padding: 3px 0;
+            border-bottom: 0.5px solid var(--border);
+            display: flex; align-items: center; gap: 6px;
+        }
+
+        .skill-list li:last-child { border: none; }
+
+        .skill-list li::before {
+            content: '';
+            width: 4px; height: 4px;
+            border-radius: 50%;
+            background: var(--accent);
+            flex-shrink: 0;
+        }
+
+        /* ── CAROUSEL (shared component) ── */
+        .carousel-nav {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 0.6rem;
+            margin: -0.5rem 0 1.25rem;
+        }
+
+        .carousel-arrow {
+            width: 36px; height: 36px;
+            border-radius: 50%;
+            border: 0.5px solid var(--border-strong);
+            background: var(--surface);
+            cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            transition: border-color 0.2s, background 0.2s;
+        }
+
+        .carousel-arrow:hover { border-color: var(--accent); background: var(--accent-dim); }
+
+        .carousel-arrow svg {
+            width: 15px; height: 15px;
+            stroke: var(--text); fill: none; stroke-width: 2;
+        }
+
+        .carousel-track {
+            display: flex;
+            gap: 1.5rem;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+            padding: 0.25rem 0.25rem 1rem;
+        }
+
+        .carousel-track::-webkit-scrollbar { height: 6px; }
+        .carousel-track::-webkit-scrollbar-track { background: transparent; }
+        .carousel-track::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 10px; }
+
+        .carousel-track .project-card {
+            flex: 0 0 320px;
+            scroll-snap-align: start;
+        }
+
+        .carousel-track .portfolio-item {
+            flex: 0 0 280px;
+            scroll-snap-align: start;
+        }
+
+        .carousel-track .testimonial-card {
+            flex: 0 0 320px;
+            scroll-snap-align: start;
+        }
+
+        @media (max-width: 720px) {
+            .carousel-track .project-card,
+            .carousel-track .testimonial-card { flex-basis: 84vw; }
+            .carousel-track .portfolio-item { flex-basis: 78vw; }
+        }
+
+        /* ── SERVICES (was Projects) ── */
+        #services { border-top: 0.5px solid var(--border); }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .project-card {
+            background: var(--surface);
+            border: 0.5px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 1.75rem;
+            display: flex; flex-direction: column; gap: 0.75rem;
+            transition: border-color 0.25s, transform 0.2s;
+            position: relative; overflow: hidden;
+        }
+
+        .project-card::before {
+            content: '';
+            position: absolute; top: 0; left: 0; right: 0; height: 2px;
+            background: linear-gradient(90deg, var(--accent), var(--accent2));
+            opacity: 0; transition: opacity 0.25s;
+        }
+
+        .project-card:hover { border-color: var(--border-strong); transform: translateY(-4px); }
+        .project-card:hover::before { opacity: 1; }
+
+        .project-tag {
+            font-family: var(--font-mono);
+            font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;
+            color: var(--accent); background: var(--accent-dim);
+            padding: 3px 10px; border-radius: 20px; width: fit-content;
+        }
+
+        .project-title {
+            font-family: var(--font-display);
+            font-size: 17px; font-weight: 600; color: var(--text);
+        }
+
+        .project-desc {
+            font-size: 13px; font-weight: 300;
+            color: var(--muted); line-height: 1.75; flex: 1;
+        }
+
+        .project-footer {
+            display: flex; align-items: center; justify-content: space-between;
+            padding-top: 0.75rem; border-top: 0.5px solid var(--border);
+        }
+
+        .project-tech { display: flex; gap: 6px; flex-wrap: wrap; }
+
+        .tech-pill {
+            font-family: var(--font-mono); font-size: 10px;
+            color: var(--muted); background: var(--surface2);
+            border: 0.5px solid var(--border);
+            padding: 2px 8px; border-radius: 4px;
+        }
+
+        .project-link {
+            color: var(--accent); font-size: 12px;
+            text-decoration: none; font-family: var(--font-mono);
+            transition: opacity 0.2s;
+        }
+
+        .project-link:hover { opacity: 0.7; }
+
+        /* ── TOOLS I USE MARQUEE ── */
+.tools-marquee-wrap { margin-top: 3.5rem; }
+
+.tools-marquee-label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.tools-marquee-mask {
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(90deg, transparent 0%, black 8%, black 92%, transparent 100%);
+    mask-image: linear-gradient(90deg, transparent 0%, black 8%, black 92%, transparent 100%);
+}
+
+.tools-marquee-track {
+    display: flex;
+    width: max-content;
+    gap: 2.5rem;
+    animation: toolsMarquee 32s linear infinite;
+}
+
+@keyframes toolsMarquee {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+}
+
+.tool-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.6rem;
+    flex-shrink: 0;
+    width: 88px;
+}
+
+.tool-icon-circle {
+    width: 52px; height: 52px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 15px;
+    color: #fff;
+    border: 0.5px solid var(--border-strong);
+    flex-shrink: 0;
+}
+
+.tool-name {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--muted);
+    text-align: center;
+    white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .tools-marquee-track { animation: none; }
+}
+        
+
+        /* ── PORTFOLIO ── */
+        #portfolio {
+            background: var(--surface);
+            border-top: 0.5px solid var(--border);
+            border-bottom: 0.5px solid var(--border);
+        }
+
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.25rem;
+        }
+
+        .portfolio-service-group { margin-bottom: 2.75rem; }
+        .portfolio-service-group:last-child { margin-bottom: 0; }
+
+        .portfolio-service-heading {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .portfolio-service-title {
+            font-family: var(--font-display);
+            font-size: 16px; font-weight: 600;
+            color: var(--text);
+            display: flex; align-items: center; gap: 0.6rem;
+        }
+
+        .portfolio-service-title .service-dot {
+            width: 8px; height: 8px;
+            border-radius: 50%;
+            background: var(--accent);
+            flex-shrink: 0;
+        }
+
+        .portfolio-service-count {
+            font-family: var(--font-mono);
+            font-size: 11px; color: var(--muted);
+        }
+
+        .portfolio-item {
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            border: 0.5px solid var(--border);
+            background: var(--bg);
+            transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s;
+            cursor: pointer;
+        }
+
+        .portfolio-item:hover {
+            transform: translateY(-4px);
+            border-color: var(--accent);
+            box-shadow: 0 8px 32px rgba(26, 107, 90, 0.1);
+        }
+
+        .portfolio-thumb {
+            width: 100%;
+            aspect-ratio: 16 / 10;
+            object-fit: cover;
+            display: block;
+            background: var(--surface2);
+        }
+
+        /* placeholder when no real image */
+        .portfolio-thumb-placeholder {
+            width: 100%;
+            aspect-ratio: 16 / 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--surface2) 0%, var(--accent-dim) 100%);
+            gap: 0.5rem;
+        }
+
+        .portfolio-thumb-placeholder svg {
+            width: 32px; height: 32px;
+            stroke: var(--accent); fill: none; stroke-width: 1.5;
+            opacity: 0.6;
+        }
+
+        .portfolio-thumb-placeholder span {
+            font-family: var(--font-mono);
+            font-size: 10px; letter-spacing: 0.1em;
+            text-transform: uppercase; color: var(--accent); opacity: 0.6;
+        }
+
+        .portfolio-meta {
+            padding: 1rem 1.25rem 1.25rem;
+        }
+
+        .portfolio-meta-tag {
+            font-family: var(--font-mono);
+            font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;
+            color: var(--accent); margin-bottom: 0.35rem;
+        }
+
+        .portfolio-meta-title {
+            font-family: var(--font-display);
+            font-size: 14px; font-weight: 600; color: var(--text);
+            margin-bottom: 0.3rem;
+        }
+
+        .portfolio-meta-desc {
+            font-size: 12px; font-weight: 300;
+            color: var(--muted); line-height: 1.6;
+        }
+
+        /* Visit-website button on Web Development portfolio items */
+        .portfolio-visit-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 0.85rem;
+            padding-top: 0.85rem;
+            border-top: 0.5px solid var(--border);
+            width: 100%;
+            font-family: var(--font-mono);
+            font-size: 11px;
+            font-weight: 500;
+            letter-spacing: 0.03em;
+            color: var(--accent);
+            text-decoration: none;
+            transition: opacity 0.2s, gap 0.2s;
+        }
+
+        .portfolio-visit-link svg {
+            width: 12px; height: 12px;
+            stroke: currentColor; fill: none; stroke-width: 2;
+            flex-shrink: 0;
+        }
+
+        .portfolio-visit-link:hover { opacity: 0.7; gap: 9px; }
+
+        /* ── TESTIMONIALS ── */
+        #testimonials { border-top: 0.5px solid var(--border); }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .testimonial-card {
+            background: var(--surface);
+            border: 0.5px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 1.75rem;
+            display: flex; flex-direction: column; gap: 1rem;
+            transition: border-color 0.25s, transform 0.2s;
+            position: relative;
+        }
+
+        .testimonial-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-3px);
+        }
+
+        .testimonial-quote-icon {
+            font-family: var(--font-display);
+            font-size: 3rem; font-weight: 700;
+            color: var(--accent); opacity: 0.15;
+            line-height: 1;
+            position: absolute; top: 1rem; right: 1.5rem;
+        }
+
+        .testimonial-stars {
+            display: flex; gap: 3px;
+        }
+
+        .testimonial-stars svg {
+            width: 14px; height: 14px;
+            fill: var(--accent); stroke: none;
+        }
+
+        .testimonial-text {
+            font-size: 14px; font-weight: 300;
+            color: var(--muted); line-height: 1.8;
+            font-style: italic;
+            flex: 1;
+        }
+
+        .testimonial-author {
+            display: flex; align-items: center; gap: 0.85rem;
+            padding-top: 1rem; border-top: 0.5px solid var(--border);
+        }
+
+        .testimonial-avatar {
+            width: 40px; height: 40px;
+            border-radius: 50%;
+            background: var(--accent-dim);
+            border: 0.5px solid rgba(26, 107, 90, 0.2);
+            display: flex; align-items: center; justify-content: center;
+            font-family: var(--font-display);
+            font-size: 15px; font-weight: 700;
+            color: var(--accent);
+            flex-shrink: 0;
+        }
+
+        .testimonial-author-name {
+            font-family: var(--font-display);
+            font-size: 13px; font-weight: 600; color: var(--text);
+        }
+
+        .testimonial-author-role {
+            font-size: 11px; color: var(--muted);
+        }
+
+        /* ── CONTACT ── */
+        #contact {
+            background: var(--surface);
+            border-top: 0.5px solid var(--border);
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.4fr;
+            gap: 4rem;
+            align-items: start;
+        }
+
+        .contact-info-item {
+            display: flex; align-items: flex-start;
+            gap: 1rem; margin-bottom: 1.5rem;
+        }
+
+        .contact-icon {
+            width: 38px; height: 38px;
+            border-radius: var(--radius);
+            background: var(--accent-dim);
+            border: 0.5px solid rgba(26, 107, 90, 0.2);
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0;
+            transition: background 0.2s, border-color 0.2s;
+        }
+
+        .contact-icon svg {
+            width: 16px; height: 16px;
+            stroke: var(--accent); fill: none; stroke-width: 1.8;
+        }
+
+        .contact-info-label { font-size: 11px; color: var(--muted); margin-bottom: 2px; }
+
+        .contact-info-val {
+            font-size: 14px; color: var(--text); font-weight: 400;
+        }
+
+        /* Social links row */
+        .social-links-row {
+            display: flex; gap: 0.85rem;
+            flex-wrap: wrap;
+            margin-top: 0.25rem;
+        }
+
+        .social-link {
+            display: flex; align-items: center; gap: 8px;
+            font-family: var(--font-mono);
+            font-size: 12px; color: var(--muted);
+            text-decoration: none;
+            padding: 8px 14px;
+            border: 0.5px solid var(--border-strong);
+            border-radius: var(--radius);
+            background: var(--bg);
+            transition: border-color 0.2s, color 0.2s, background 0.2s;
+        }
+
+        .social-link svg {
+            width: 15px; height: 15px;
+            fill: currentColor; flex-shrink: 0;
+        }
+
+        .social-link:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            background: var(--accent-dim);
+        }
+
+        /* Contact form */
+        .form-group { margin-bottom: 1.2rem; }
+
+        .form-group label {
+            display: block;
+            font-family: var(--font-mono); font-size: 11px;
+            letter-spacing: 0.08em; color: var(--muted);
+            text-transform: uppercase; margin-bottom: 0.45rem;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            background: var(--bg);
+            border: 0.5px solid var(--border-strong);
+            border-radius: var(--radius);
+            padding: 11px 14px;
+            font-family: var(--font-body); font-size: 14px;
+            color: var(--text); outline: none;
+            transition: border-color 0.2s; resize: none;
+        }
+
+        .form-group input::placeholder,
+        .form-group textarea::placeholder { color: rgba(122, 131, 147, 0.5); }
+
+        .form-group input:focus,
+        .form-group textarea:focus { border-color: var(--accent); }
+
+        .form-group textarea { height: 120px; }
+
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+
+        .btn-submit {
+            font-family: var(--font-mono); font-size: 13px; font-weight: 500;
+            color: #fff; background: var(--accent);
+            padding: 13px 32px; border-radius: var(--radius);
+            border: none; cursor: pointer; width: 100%;
+            letter-spacing: 0.04em;
+            transition: opacity 0.2s, transform 0.15s;
+            margin-top: 0.5rem;
+        }
+
+        .btn-submit:hover { opacity: 0.88; transform: translateY(-1px); }
+
+        /* Form success */
+        #form-success {
+            display: none; text-align: center; padding: 2rem;
+            background: var(--accent-dim);
+            border: 0.5px solid rgba(26, 107, 90, 0.3);
+            border-radius: var(--radius-lg);
+        }
+
+        #form-success .success-icon { font-size: 2rem; margin-bottom: 0.75rem; }
+        #form-success p { font-size: 14px; color: var(--muted); }
+        #form-success strong { color: var(--accent); font-weight: 500; }
+
+        /* ── FOOTER ── */
+        footer {
+            border-top: 0.5px solid var(--border);
+            padding: 2rem 2.5rem;
+            display: flex; align-items: center; justify-content: space-between;
+        }
+
+        .footer-copy { font-family: var(--font-mono); font-size: 11px; color: var(--muted); }
+
+        .footer-links { display: flex; gap: 1.5rem; }
+
+        .footer-links a {
+            font-size: 12px; color: var(--muted);
+            text-decoration: none; transition: color 0.2s;
+        }
+
+        .footer-links a:hover { color: var(--accent); }
+
+        /* ── ANIMATIONS ── */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero-inner > * { animation: fadeUp 0.7s ease both; }
+        .hero-tag      { animation-delay: 0.1s; }
+        .hero-name     { animation-delay: 0.22s; }
+        .hero-title    { animation-delay: 0.32s; }
+        .hero-desc     { animation-delay: 0.42s; }
+        .hero-actions  { animation-delay: 0.52s; }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 900px) {
+            .portfolio-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (max-width: 720px) {
+            nav { padding: 0 1.25rem; }
+            .nav-links { display: none; }
+            section { padding: 4rem 1.25rem; }
+            .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+            .about-right { width: 100%; }
+            .contact-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+            .form-row { grid-template-columns: 1fr; }
+            footer { flex-direction: column; gap: 1rem; text-align: center; }
+            .portfolio-grid { grid-template-columns: 1fr; }
+        }
+
+        /* Respect users who've asked their OS to reduce motion */
+        @media (prefers-reduced-motion: reduce) {
+            #hero-cursor-fx { display: none; }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ── NAV ── -->
+    <nav>
+        <span class="nav-logo">Blys Neil Ong</span>
+        <ul class="nav-links">
+            <li><a href="#about">About</a></li>
+            <li><a href="#experience">Experience</a></li>
+            <li><a href="#services">Services</a></li>
+            <li><a href="#portfolio">Portfolio</a></li>
+            <li><a href="#testimonials">Testimonials</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+        <div class="nav-right">
+            <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Toggle dark mode">
+                <span class="theme-toggle-knob">
+                    <svg id="theme-toggle-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="12" cy="12" r="4"/>
+                        <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
+                    </svg>
+                </span>
+            </button>
+            <a href="#contact" class="nav-cta">Contact Me</a>
+        </div>
+    </nav>
+
+    <!-- ── HERO ── -->
+    <section id="hero">
+        <div class="hero-grid-bg"></div>
+        <canvas id="hero-cursor-fx"></canvas>
+        <div class="hero-glow"></div>
+        <div class="hero-inner">
+            <span class="hero-tag">Available for Freelance Work</span>
+            <h1 class="hero-name">AI Automation Specialist <span> &amp; </span> Software Developer  </h1>
+            <p class="hero-desc">I specialize in designing and implementing automation solutions
+                that help business operations, reduce manual works, improve efficiency, and help scales the business.
+                With experience in workflow automation, web development, system integrations, and cybersecurity
+                best practices, I build reliable digital solutions tailored to business needs.</p>
+            <div class="hero-actions">
+                <a href="#portfolio" class="btn-primary">View My Work</a>
+                <a href="#contact" class="btn-secondary">Get in Touch</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── ABOUT ── -->
+    <section id="about">
+        <div class="section-inner">
+            <p class="section-label">// 01 — About Me</p>
+            <h2 class="section-title">Learning Everyday</h2>
+            <div class="about-grid">
+                <div class="about-text">
+                    <p>I'm a freelance <strong>AI Automation &amp; Software Developer</strong> focused on helping
+                        businesses streamline operations, improve efficiency, and take advantage of the technologies to solve business & real-world tasks.</p>
+                    <p>My approach combines <strong>technical problem-solving</strong> with clear communication. I don't just build solutions I
+                        ensure my clients understand how the system works, why they matter for the business, how they can maximize their value, and how thier businesses scales up. Whether it's
+                        automating repetitive processes, developing web applications, integrating APIs, or implementing AI-driven
+                        workflows, I strive to deliver reliable and practical results that can convert to client's end goal.</p>
+                    <p>Beyond project delivery, I'm committed to continuous learning and
+                        staying updated on emerging technologies in <strong>automation, artificial
+                        intelligence, web development, and cybersecurity.</strong> This allows me to provide
+                        modern, secure, and future-ready solutions for all kinds of businesses.</p>
+                </div>
+                <div class="about-right">
+                    <!-- Profile photo -->
+                    <div class="about-photo-wrap">
+                        <img
+                            class="about-photo"
+                            src="assets/profile.jpg"
+                            alt="Blys Neil Ong"
+                        />
+                    </div>
+                    <!-- Stats below photo -->
+                    <div class="about-stats">
+                        <div class="stat-card">
+                            <div class="stat-num">30+</div>
+                            <div class="stat-label">Projects Completed</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-num">350+</div>
+                            <div class="stat-label">Hours of Hands-on Experience</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-num">10+</div>
+                            <div class="stat-label">Core Technologies</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── EXPERIENCE (was Skills) ── -->
+    <section id="experience">
+        <div class="section-inner">
+            <p class="section-label">// 02 — Experience</p>
+            <h2 class="section-title">What I Do</h2>
+            <p class="section-desc">Focused on building efficient digital solutions through
+                workflow automation, AI technologies, web development, and secure system integration.</p>
+            <div class="skills-grid">
+
+                <div class="skill-card">
+                    <div class="skill-icon">
+                        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
+                        <circle cx="12" cy="12" r="4"/>
+                        </svg>
+                    </div>
+                    <div class="skill-name">Workflow Automation</div>
+                    <ul class="skill-list">
+                        <li>n8n Workflow Development</li>
+                        <li>Zapier Automation</li>
+                        <li>Make.com</li>
+                        <li>Business Process Automation</li>
+                    </ul>
+                </div>
+
+                <div class="skill-card">
+                    <div class="skill-icon">
+                        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                        <path d="M9 9h6v6H9zM9 1v2M15 1v2M9 21v2M15 21v2M21 9h2M21 15h2M1 9h2M1 15h2"/>
+                        </svg>
+                    </div>
+                    <div class="skill-name">AI Solutions</div>
+                    <ul class="skill-list">
+                        <li>AI Chatbots</li>
+                        <li>AI Agents</li>
+                        <li>Knowledge Base Integration</li>
+                        <li>Lead Qualification Automation</li>
+                    </ul>
+                </div>
+
+                <div class="skill-card">
+                    <div class="skill-icon">
+                        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="16 18 22 12 16 6"/>
+                        <polyline points="8 6 2 12 8 18"/>
+                        <line x1="14" y1="4" x2="10" y2="20"/>
+                        </svg>
+                    </div>
+                    <div class="skill-name">Web Development</div>
+                    <ul class="skill-list">
+                        <li>Tailord business Websites</li>
+                        <li>AI tools (Claude, GPT, Replit) </li>
+                        <li>WordPress & Wix</li>
+                        <li>GoHighLevel</li>
+                    </ul>
+                </div>
+
+                <div class="skill-card">
+                    <div class="skill-icon">
+                        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                          <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/>
+                          <line x1="4" y1="22" x2="4" y2="15"/>
+                        </svg>
+                    </div>
+                    <div class="skill-name">System Integration</div>
+                    <ul class="skill-list">
+                        <li>API Integration</li>
+                        <li>CRM Integration</li>
+                        <li>Google Workspace Automation</li>
+                        <li>Third-Party Services</li>
+                    </ul>
+                </div>
+
+                <div class="skill-card">
+                    <div class="skill-icon">
+                        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="4 17 10 11 4 5"/>
+                        <line x1="12" y1="19" x2="20" y2="19"/>
+                        </svg>
+                    </div>
+                    <div class="skill-name">Scripting &amp; Technical Solutions</div>
+                    <ul class="skill-list">
+                        <li>JavaScript</li>
+                        <li>Python</li>
+                        <li>PowerShell</li>
+                        <li>Custom Automation Scripts</li>
+                    </ul>
+                </div>
+
+                <div class="skill-card">
+                    <div class="skill-icon">
+                        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+                        </svg>
+                    </div>
+                    <div class="skill-name">Vibe Coding</div>
+                    <ul class="skill-list">
+                        <li>Web Development</li>
+                        <li>Web Application Development</li>
+                        <li>App Development</li>
+                    </ul>
+                </div>
+
+                <div class="skill-card">
+                    <div class="skill-icon">
+                        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M3 18v-6a9 9 0 0 1 18 0v6"/>
+                        <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/>
+                        </svg>
+                    </div>
+                    <div class="skill-name">IT Support/Helpdesk</div>
+                    <ul class="skill-list">
+                        <li>Scripting</li>
+                        <li>Network Configuration</li>
+                        <li>Hardware Support</li>
+                        <li>Software Support</li>
+                        <li>Technical Support</li>
+                    </ul>
+                </div>
+
+                <div class="skill-card">
+                    <div class="skill-icon">
+                        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="20" x2="18" y2="10"/>
+                        <line x1="12" y1="20" x2="12" y2="4"/>
+                        <line x1="6" y1="20" x2="6" y2="14"/>
+                        </svg>
+                    </div>
+                    <div class="skill-name">Customer Service Representative/Sales</div>
+                    <ul class="skill-list">
+                        <li>Customer Support</li>
+                        <li>Cold Calling</li>
+                        <li>Hard Selling</li>
+                        <li>Techinical Support</li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ── SERVICES  ── -->
+    <!-- ── SERVICES  ── -->
+    <section id="services">
+        <div class="section-inner">
+            <p class="section-label">// 03 — Services</p>
+            <h2 class="section-title">Services &amp; Solutions</h2>
+            <p class="section-desc">A powerhouse stack of modern technical services and AI automations built to optimize, scale, and support your business operations.</p>
+
+            <div class="carousel-nav">
+                <button class="carousel-arrow" type="button" data-carousel-prev="services-carousel" aria-label="Previous services">
+                    <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+                </button>
+                <button class="carousel-arrow" type="button" data-carousel-next="services-carousel" aria-label="Next services">
+                    <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+                </button>
+            </div>
+
+            <!-- To add another service card: copy one .project-card block below and drop it in before </div> -->
+            <div class="carousel-track" id="services-carousel">
+
+                <div class="project-card">
+                    <span class="project-tag">AI AUTOMATION WORKFLOWS</span>
+                    <div class="project-title">AI Agents & Workflow Engineering</div>
+                    <p class="project-desc">End-to-end automation pipelines built to eliminate manual bottlenecks, 
+                        capture incoming leads, and seamlessly connect apps to keep your business operations  .</p>
+                    <div class="project-footer">
+                        <div class="project-tech">
+                            <span class="tech-pill">n8n</span>
+                            <span class="tech-pill">Zapier</span>
+                            <span class="tech-pill">make</span>
+                            <span class="tech-pill">GoHighLevel</span>
+                        </div>
+                        <a href="#contact" class="project-link">Details →</a>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <span class="project-tag">WEB DEVELOPMENT</span>
+                    <div class="project-title">Websites & Funnels</div>
+                    <p class="project-desc">Responsive, fast-loading business websites and marketing funnels 
+                        engineered to optimize user experience, capture inbound leads, and rank well across search engines.</p>
+                    <div class="project-footer">
+                        <div class="project-tech">
+                            <span class="tech-pill">GoHighLevel</span>
+                            <span class="tech-pill">WordPress</span>
+                            <span class="tech-pill">Wix</span>
+                            <span class="tech-pill">SEO</span>
+                        </div>
+                        <a href="#contact" class="project-link">Details →</a>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <span class="project-tag">SOFTWARE DEVELOPMENT</span>
+                    <div class="project-title">Custom Apps &amp; Custom Scripts</div>
+                    <p class="project-desc">Custom backend utilities, scripts, and software applications built to handle heavy technical 
+                        heavy-lifting, process complex data formats, or bridge gaps between third-party systems.</p>
+                    <div class="project-footer">
+                        <div class="project-tech">
+                            <span class="tech-pill">JavaScript</span>
+                            <span class="tech-pill">Python</span>
+                            <span class="tech-pill">React</span>
+                            <span class="tech-pill">Scripting</span>
+                            <span class="tech-pill">APIs</span>
+                        </div>
+                        <a href="#contact" class="project-link">Details →</a>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <span class="project-tag">OPERATIONS</span>
+                    <div class="project-title">Technical Virtual Assitant</div>
+                    <p class="project-desc">High-level operational support managing complex software stacks, maintaining data hygiene across systems,
+                        data entry, and handling day-to-day technical tasks so you can focus entirely on growing your business.</p>
+                    <div class="project-footer">
+                        <div class="project-tech">
+                            <span class="tech-pill">Operations</span>
+                            <span class="tech-pill">Data Entry</span>
+                            <span class="tech-pill">System Management</span>
+                        </div>
+                        <a href="#contact" class="project-link">Details →</a>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <span class="project-tag">AI Developments</span>
+                    <div class="project-title">Vibe Coding</div>
+                    <p class="project-desc">Leveraging cutting-edge AI development tools to build, test, and deploy software in 
+                        hours rather than weeks, keeping development agile and laser-focused on practical features.</p>
+                    <div class="project-footer">
+                        <div class="project-tech">
+                            <span class="tech-pill">Claude</span>
+                            <span class="tech-pill">GPT</span>
+                            <span class="tech-pill">Replit</span>
+                            <span class="tech-pill">Cursor</span>
+                        </div>
+                        <a href="#contact" class="project-link">Details →</a>
+                    </div>
+                </div>
+
+            </div>
+            <!-- ↑ carousel-track closes here — the marquee below is now OUTSIDE it ↑ -->
+
+            <!-- ── TOOLS I USE MARQUEE ── -->
+            <div class="tools-marquee-wrap">
+                <p class="tools-marquee-label">Tools &amp; Platforms I Use</p>
+                <div class="tools-marquee-mask">
+                    <div class="tools-marquee-track">
+
+                        <!-- SET 1 -->
+                        <div class="tool-item"><div class="tool-icon-circle" style="background:#EA4B71">n8n</div><span class="tool-name">n8n</span></div>
+                        <div class="tool-item"><div class="tool-icon-circle" style="background:#6D00CC">M</div><span class="tool-name">Make.com</span></div>
+                        <div class="tool-item"><div class="tool-icon-circle" style="background:#FF4A00">Z</div><span class="tool-name">Zapier</span></div>
+                        <div class="tool-item"><div class="tool-icon-circle" style="background:#1BA9D6">HL</div><span class="tool-name">HighLevel</span></div>
+                        <div class="tool-item"><div class="tool-icon-circle" style="background:#21759B">W</div><span class="tool-name">WordPress</span></div>
+                        <div class="tool-item"><div class="tool-icon-circle" style="background:#111111">Wix</div><span class="tool-name">Wix</span></div>
+                        <div class="tool-item"><div class="tool-icon-circle" style="background:#4A154B">S</div><span class="tool-name">Slack</span></div>
+                        <div class="tool-item"><div class="tool-icon-circle" style="background:#111111">N</div><span class="tool-name">Notion</span></div>
+                        <div class="tool-item"><div class="tool-icon-circle" style="background:#6264A7">T</div><span class="tool-name">Teams</span></div>
+                        <div class="tool-item"><div class="tool-icon-circle" style="background:#FF7A59">H</div><span class="tool-name">HubSpot</span></div>
+                        <div class="tool-item"><div class="tool-icon-circle" style="background:#D97757">C</div><span class="tool-name">Claude</span></div>
+                        <div class="tool-item"><div class="tool-icon-circle" style="background:#10A37F">GPT</div><span class="tool-name">ChatGPT</span></div>
+                        <div class="tool-item"><div class="tool-icon-circle" style="background:#000000">Cur</div><span class="tool-name">Cursor</span></div>
+                        <div class="tool-item"><div class="tool-icon-circle" style="background:#007ACC">VS</div><span class="tool-name">VS Code</span></div>
+                        <div class="tool-item"><div class="tool-icon-circle" style="background:#D83B01">365</div><span class="tool-name">Microsoft 365</span></div>
+
+                        <!-- SET 2 (duplicate for seamless loop) -->
+                        <div class="tool-item"><div class="tool-icon-circle" style="background:#EA4B71">n8n</div><span class="tool-name">n8n</span></div>
+                        <div class="tool-item"><div class="tool-icon-circle" style="background:#6D00CC">M</div><span class="tool-name">Make.com</span></div>
+                        <div class="tool-item"><div class="tool-icon-circle" style="background:#FF4A00">Z</div><span class="tool-name">Zapier</span></div>
+                        <div class="tool-item"><div class="tool-icon-circle" style="background:#1BA9D6">HL</div><span class="tool-name">HighLevel</span></div>
+                        <div class="tool-item"><div class="tool-icon-circle" style="background:#21759B">W</div><span class="tool-name">WordPress</span></div>
+                        <div class="tool-item"><div class="tool-icon-circle" style="background:#111111">Wix</div><span class="tool-name">Wix</span></div>
+                        <div class="tool-item"><div class="tool-icon-circle" style="background:#4A154B">S</div><span class="tool-name">Slack</span></div>
+                        <div class="tool-item"><div class="tool-icon-circle" style="background:#111111">N</div><span class="tool-name">Notion</span></div>
+                        <div class="tool-item"><div class="tool-icon-circle" style="background:#6264A7">T</div><span class="tool-name">Teams</span></div>
+                        <div class="tool-item"><div class="tool-icon-circle" style="background:#FF7A59">H</div><span class="tool-name">HubSpot</span></div>
+                        <div class="tool-item"><div class="tool-icon-circle" style="background:#D97757">C</div><span class="tool-name">Claude</span></div>
+                        <div class="tool-item"><div class="tool-icon-circle" style="background:#10A37F">GPT</div><span class="tool-name">ChatGPT</span></div>
+                        <div class="tool-item"><div class="tool-icon-circle" style="background:#000000">Cur</div><span class="tool-name">Cursor</span></div>
+                        <div class="tool-item"><div class="tool-icon-circle" style="background:#007ACC">VS</div><span class="tool-name">VS Code</span></div>
+                        <div class="tool-item"><div class="tool-icon-circle" style="background:#D83B01">365</div><span class="tool-name">Microsoft 365</span></div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ── PORTFOLIO ── -->
+    <section id="portfolio">
+        <div class="section-inner">
+            <p class="section-label">// 04 — Portfolio</p>
+            <h2 class="section-title">Project Gallery</h2>
+            <p class="section-desc">A visual showcase of websites, automation dashboards, and digital tools I've built and used — grouped by service so you can browse the tool you care about.</p>
+
+            <!-- ══════════ ZAPIER CAROUSEL ══════════ -->
+            <div class="portfolio-service-group">
+                <div class="portfolio-service-heading">
+                    <div class="portfolio-service-title"><span class="service-dot"></span>Zapier Projects</div>
+                    <div class="carousel-nav" style="margin: 0;">
+                        <button class="carousel-arrow" type="button" data-carousel-prev="zapier-carousel" aria-label="Previous Zapier project">
+                            <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+                        </button>
+                        <button class="carousel-arrow" type="button" data-carousel-next="zapier-carousel" aria-label="Next Zapier project">
+                            <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+                        </button>
+                    </div>
+                </div>
+                <!-- To add another Zapier slide: copy one .portfolio-item block below and paste it before </div> -->
+                <div class="carousel-track" id="zapier-carousel">
+
+                    <div class="portfolio-item">
+                        <div class="portfolio-thumb-placeholder">
+                            <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+                            <span>Add Screenshot</span>
+                        </div>
+                        <div class="portfolio-meta">
+                            <div class="portfolio-meta-tag">Zapier ● Calendly/G Calendar ● Gmail </div>
+                            <div class="portfolio-meta-title">Appointment Booking and Reminder</div>
+                            <div class="portfolio-meta-desc"> Scheduling workflow by automating appointment booking and sending proactive reminders directly through Zapier, 
+                                ensuring seamless coordination and reduced no-shows. </div>
+                        </div>
+                    </div>
+
+                    <div class="portfolio-item">
+                        <div class="portfolio-thumb-placeholder">
+                            <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+                            <span>Add Screenshot</span>
+                        </div>
+                        <div class="portfolio-meta">
+                            <div class="portfolio-meta-tag">Zapier ● JotForms ● Sheets ● Gmail</div>
+                            <div class="portfolio-meta-title">Automates New Leads From JotForms to sheets and make a follow ups</div>
+                            <div class="portfolio-meta-desc">Automates lead capture from Jotform directly into Google Sheets and schedules instant, 
+                                automated multi-channel follow-ups to maximize client conversion rates.</div>
+                        </div>
+                    </div>
+
+                    <div class="portfolio-item">
+                        <div class="portfolio-thumb-placeholder">
+                            <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+                            <span>Add Screenshot</span>
+                        </div>
+                        <div class="portfolio-meta">
+                            <div class="portfolio-meta-tag">Zapier ● FB Messenger ● OpenAI ● Gmail</div>
+                            <div class="portfolio-meta-title">Record Leads from AI & fb messenger</div>
+                            <div class="portfolio-meta-desc">Captures and logs incoming leads generated by AI conversational assistants and 
+                                Facebook Messenger interactions straight into your central CRM or data pipeline.</div>
+                        </div>
+                    </div>
+
+                    <div class="portfolio-item">
+                        <div class="portfolio-thumb-placeholder">
+                            <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+                            <span>Add Screenshot</span>
+                        </div>
+                        <div class="portfolio-meta">
+                            <div class="portfolio-meta-tag">Zapier ● Hubspot</div>
+                            <div class="portfolio-meta-title">Lead Follow-Up & HubSpot Integration</div>
+                            <div class="portfolio-meta-desc">Triggers automated follow-up sequences for incoming leads and instantly syncs their 
+                                information to HubSpot, automating both client communication and CRM data entry.</div>
+                        </div>
+                    </div>
+
+                    <div class="portfolio-item">
+                        <div class="portfolio-thumb-placeholder">
+                            <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+                            <span>Add Screenshot</span>
+                        </div>
+                        <div class="portfolio-meta">
+                            <div class="portfolio-meta-tag">Zapier ● Slack ● Gmail ● Sheets </div>
+                            <div class="portfolio-meta-title">Webhook-Driven Lead Alert & Follow-Up</div>
+                            <div class="portfolio-meta-desc">An automated pipeline that triggers on new webhooks to instantly notify the team 
+                                and dispatch a customized follow-up email to the lead without a second of delay.</div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- ══════════ N8N CAROUSEL ══════════ -->
+            <div class="portfolio-service-group">
+                <div class="portfolio-service-heading">
+                    <div class="portfolio-service-title"><span class="service-dot"></span>n8n Projects</div>
+                    <div class="carousel-nav" style="margin: 0;">
+                        <button class="carousel-arrow" type="button" data-carousel-prev="n8n-carousel" aria-label="Previous n8n project">
+                            <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+                        </button>
+                        <button class="carousel-arrow" type="button" data-carousel-next="n8n-carousel" aria-label="Next n8n project">
+                            <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+                        </button>
+                    </div>
+                </div>
+                <!-- To add another n8n slide: copy one .portfolio-item block below and paste it before </div> -->
+                <div class="carousel-track" id="n8n-carousel">
+
+                    <div class="portfolio-item">
+                        <div class="portfolio-thumb-placeholder">
+                            <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+                            <span>Add Screenshot</span>
+                        </div>
+                        <div class="portfolio-meta">
+                            <div class="portfolio-meta-tag">n8n ● OpenAI ● Webhooks</div>
+                            <div class="portfolio-meta-title">Web Chatbot & Automated Booking Setup</div>
+                            <div class="portfolio-meta-desc">A website-embedded AI assistant that engages incoming visitors in real-time 
+                                and automates the calendar scheduling process for discovery calls.</div>
+                        </div>
+                    </div>
+
+                    <div class="portfolio-item">
+                        <div class="portfolio-thumb-placeholder">
+                            <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+                            <span>Add Screenshot</span>
+                        </div>
+                        <div class="portfolio-meta">
+                            <div class="portfolio-meta-tag">n8n ● Discord ● Webhooks ● Gmail</div>
+                            <div class="portfolio-meta-title">Automated Weekly Sales Insights for Discord</div>
+                            <div class="portfolio-meta-desc">Automates the collection and delivery of key weekly performance indicators, 
+                                pushing clean sales data directly to team Discord servers.</div>
+                        </div>
+                    </div>
+
+                    <div class="portfolio-item">
+                        <div class="portfolio-thumb-placeholder">
+                            <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+                            <span>Add Screenshot</span>
+                        </div>
+                        <div class="portfolio-meta">
+                            <div class="portfolio-meta-tag">n8n ● Webhooks ● Gmail ● Discord/Telegram</div>
+                            <div class="portfolio-meta-title">Multi-System Customer Sync & Regional Reporting</div>
+                            <div class="portfolio-meta-desc">Automatically synchronizes customer profiles across systems and generates 
+                                segmented performance reports based on regional sales metrics.</div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- ══════════ WEB DEVELOPMENT CAROUSEL ══════════ -->
+            <div class="portfolio-service-group">
+                <div class="portfolio-service-heading">
+                    <div class="portfolio-service-title"><span class="service-dot"></span>Web Development Projects</div>
+                    <div class="carousel-nav" style="margin: 0;">
+                        <button class="carousel-arrow" type="button" data-carousel-prev="webdev-carousel" aria-label="Previous web development project">
+                            <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+                        </button>
+                        <button class="carousel-arrow" type="button" data-carousel-next="webdev-carousel" aria-label="Next web development project">
+                            <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+                        </button>
+                    </div>
+                </div>
+                <!-- To add another Web Development slide: copy one .portfolio-item block below and paste it before </div>.
+                     For each slide's "Visit Website" button, swap the href="#" placeholder for the live project URL. -->
+                <div class="carousel-track" id="webdev-carousel">
+
+                    <div class="portfolio-item">
+                        <div class="portfolio-thumb-placeholder">
+                            <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+                            <span>Add Screenshot</span>
+                        </div>
+                        <div class="portfolio-meta">
+                            <div class="portfolio-meta-tag">Web Development</div>
+                            <div class="portfolio-meta-title">Events & Management Website</div>
+                            <div class="portfolio-meta-desc">A specialized web portal built for client onboarding. It allows event hosts to browse 
+                                a curated menu of event services, check real-time calendar availability, and book consultation calls to lock down their event planning.</div>
+                            <!-- Replace href="#" with the live site URL -->
+                            <a href="#" target="_blank" rel="noopener noreferrer" class="portfolio-visit-link" onclick="event.stopPropagation()">
+                                Visit Website
+                                <svg viewBox="0 0 24 24"><path d="M7 17L17 7M7 7h10v10"/></svg>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="portfolio-item">
+                        <div class="portfolio-thumb-placeholder">
+                            <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+                            <span>Add Screenshot</span>
+                        </div>
+                        <div class="portfolio-meta">
+                            <div class="portfolio-meta-tag">Web Development</div>
+                            <div class="portfolio-meta-title">All-in-One Japanese Goods Storefront</div>
+                            <div class="portfolio-meta-desc">A fully responsive e-commerce storefront designed to bring authentic Japanese products directly to a global audience. 
+                                It features dynamic product filtering, user friendly checkout pipelines, and a secure cart system built to handle everything from snacks to collectibles.</div>
+                            <!-- Replace href="#" with the live site URL -->
+                            <a href="#" target="_blank" rel="noopener noreferrer" class="portfolio-visit-link" onclick="event.stopPropagation()">
+                                Visit Website
+                                <svg viewBox="0 0 24 24"><path d="M7 17L17 7M7 7h10v10"/></svg>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="portfolio-item">
+                        <div class="portfolio-thumb-placeholder">
+                            <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+                            <span>Add Screenshot</span>
+                        </div>
+                        <div class="portfolio-meta">
+                            <div class="portfolio-meta-tag">Web Development</div>
+                            <div class="portfolio-meta-title">Ghibli Streaming & Digital Storefront</div>
+                            <div class="portfolio-meta-desc">A dedicated streaming and digital marketplace engineered exclusively for Studio Ghibli fans. Think Netflix, but entirely customized 
+                                for the Ghibli library—featuring a beautiful, immersive media player, curated collections, and lightning-fast video delivery.</div>
+                            <!-- Replace href="#" with the live site URL -->
+                            <a href="#" target="_blank" rel="noopener noreferrer" class="portfolio-visit-link" onclick="event.stopPropagation()">
+                                Visit Website
+                                <svg viewBox="0 0 24 24"><path d="M7 17L17 7M7 7h10v10"/></svg>
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- ══════════ MAKE CAROUSEL ══════════ 
+            <div class="portfolio-service-group">
+                <div class="portfolio-service-heading">
+                    <div class="portfolio-service-title"><span class="service-dot"></span>Make Projects</div>
+                    <div class="carousel-nav" style="margin: 0;">
+                        <button class="carousel-arrow" type="button" data-carousel-prev="make-carousel" aria-label="Previous Make project">
+                            <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+                        </button>
+                        <button class="carousel-arrow" type="button" data-carousel-next="make-carousel" aria-label="Next Make project">
+                            <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+                        </button>
+                    </div>
+                </div>
+                 // To add another Make slide: copy one .portfolio-item block below and paste it before </div> //
+                <div class="carousel-track" id="make-carousel">
+
+                    <div class="portfolio-item">
+                        <div class="portfolio-thumb-placeholder">
+                            <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+                            <span>Add Screenshot</span>
+                        </div>
+                        <div class="portfolio-meta">
+                            <div class="portfolio-meta-tag">Make</div>
+                            <div class="portfolio-meta-title">Project Title 01</div>
+                            <div class="portfolio-meta-desc">Short description of this project — what it does and the problem it solves for the client.</div>
+                        </div>
+                    </div>
+
+                </div>
+            </div> -->
+
+        </div>
+    </section>
+
+    <!-- ── TESTIMONIALS ── -->
+    <section id="testimonials">
+        <div class="section-inner">
+            <p class="section-label">// 05 — Testimonials</p>
+            <h2 class="section-title">What Clients Say</h2>
+            <!--  <p class="section-desc">Feedback from businesses I've had the privilege of working with.</p> -->
+              <p class="section-desc">Feedbacks soon!</p>
+
+            <div class="carousel-nav">
+                <button class="carousel-arrow" type="button" data-carousel-prev="testimonials-carousel" aria-label="Previous testimonial">
+                    <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+                </button>
+                <button class="carousel-arrow" type="button" data-carousel-next="testimonials-carousel" aria-label="Next testimonial">
+                    <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+                </button>
+            </div>
+
+            <!-- Carousel is wired up and ready — remove the comment markers below once you have real
+                 testimonials to show. To add another slide: copy one .testimonial-card block and
+                 paste it before the closing </div> of #testimonials-carousel. -->
+            <div class="carousel-track" id="testimonials-carousel">
+                <!--
+                <div class="testimonial-card">
+                    <div class="testimonial-quote-icon">"</div>
+                    <div class="testimonial-stars">
+                        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                    </div>
+                    <p class="testimonial-text">Add your client testimonial here. Describe the impact of the work done and how it helped your business.</p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">A</div>
+                        <div>
+                            <div class="testimonial-author-name">Client Name</div>
+                            <div class="testimonial-author-role">Role · Company</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial-card">
+                    <div class="testimonial-quote-icon">"</div>
+                    <div class="testimonial-stars">
+                        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                    </div>
+                    <p class="testimonial-text">Add your client testimonial here. Describe the impact of the work done and how it helped your business.</p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">B</div>
+                        <div>
+                            <div class="testimonial-author-name">Client Name</div>
+                            <div class="testimonial-author-role">Role · Company</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial-card">
+                    <div class="testimonial-quote-icon">"</div>
+                    <div class="testimonial-stars">
+                        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                    </div>
+                    <p class="testimonial-text">Add your client testimonial here. Describe the impact of the work done and how it helped your business.</p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">C</div>
+                        <div>
+                            <div class="testimonial-author-name">Client Name</div>
+                            <div class="testimonial-author-role">Role · Company</div>
+                        </div>
+                    </div>
+                </div>
+                -->
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ── CONTACT ── -->
+
+    <section id="contact">
+        <div class="section-inner">
+            <p class="section-label">// 06 — Contact</p>
+            <h2 class="section-title">Let's Work Together</h2>
+            <div class="contact-grid">
+                <div>
+                    <p class="section-desc" style="margin-bottom: 2rem;">Have a project in mind or want to discuss how I can help?</p>
+
+                    <div class="contact-info-item">
+                        <div class="contact-icon">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                                <polyline points="22,6 12,13 2,6"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <div class="contact-info-label">Email</div>
+                            <div class="contact-info-val">blysneil013@gmail.com</div>
+                        </div>
+                    </div>
+
+                    <div class="contact-info-item">
+                        <div class="contact-icon">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                                <circle cx="12" cy="10" r="3"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <div class="contact-info-label">Location</div>
+                            <div class="contact-info-val">Davao City, Philippines</div>
+                        </div>
+                    </div>
+
+                    <div class="contact-info-item">
+                        <div class="contact-icon">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.6 3.44 2 2 0 0 1 3.57 1.25h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 9a16 16 0 0 0 6 6l.91-.91a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 21.73 16.92z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <div class="contact-info-label">Phone / WhatsApp</div>
+                            <div class="contact-info-val">+63 9159315267 </div>
+                        </div>
+                    </div>
+
+                    <!-- Social Links -->
+                    <div style="margin-top: 0.5rem;">
+                        <div class="contact-info-label" style="margin-bottom: 0.75rem;">Connect with me</div>
+                        <div class="social-links-row">
+
+                            <!-- Facebook -->
+                            <a href="https://facebook.com/yourprofile" target="_blank" class="social-link">
+                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+                                </svg>
+                                Facebook
+                            </a>
+
+                            <!-- LinkedIn -->
+                            <a href="https://linkedin.com/in/yourprofile" target="_blank" class="social-link">
+                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
+                                    <rect x="2" y="9" width="4" height="12"/>
+                                    <circle cx="4" cy="4" r="2"/>
+                                </svg>
+                                LinkedIn
+                            </a>
+
+                            <!-- Upwork -->
+                            <a href="https://www.upwork.com/freelancers/yourprofile" target="_blank" class="social-link">
+                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M18.561 13.158c-1.102 0-2.135-.467-3.074-1.227l.228-1.076.008-.042c.207-1.143.849-3.06 2.839-3.06 1.492 0 2.703 1.212 2.703 2.703-.001 1.489-1.212 2.702-2.704 2.702zm0-8.14c-2.539 0-4.51 1.649-5.31 4.366-1.22-1.834-2.148-4.036-2.687-5.892H7.828v7.112c-.002 1.406-1.141 2.546-2.547 2.546-1.405 0-2.543-1.14-2.543-2.546V3.492H0v7.112c0 2.914 2.37 5.303 5.281 5.303 2.913 0 5.283-2.389 5.283-5.303v-1.19c.529 1.107 1.182 2.229 1.974 3.221l-1.673 7.873h2.797l1.213-5.71c1.063.679 2.285 1.109 3.686 1.109 3 0 5.439-2.452 5.439-5.45 0-3.001-2.439-5.452-5.439-5.452z"/>
+                                </svg>
+                                Upwork
+                            </a>
+
+                            <!-- Gmail -->
+                            <a href="mailto:yourname@gmail.com" class="social-link">
+                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/>
+                                </svg>
+                                Gmail
+                            </a>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <div id="contact-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="fname">Name</label>
+                                <input type="text" id="fname" placeholder="Juan dela Cruz" />
+                            </div>
+                            <div class="form-group">
+                                <label for="femail">Email</label>
+                                <input type="email" id="femail" placeholder="juan@email.com" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="fsubject">Subject</label>
+                            <input type="text" id="fsubject" placeholder="AI chatbot for my business" />
+                        </div>
+                        <div class="form-group">
+                            <label for="fmessage">Message</label>
+                            <textarea id="fmessage" placeholder="Tell me about your project or concern..."></textarea>
+                        </div>
+                        <button class="btn-submit" onclick="submitForm()">Send Message →</button>
+                    </div>
+                    <div id="form-success">
+                        <div class="success-icon">✓</div>
+                        <p><strong>Message sent!</strong><br />I'll get back to you within 24 hours.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── FOOTER ── -->
+    <footer>
+        <span class="footer-copy">© 2025 Blys Neil Ong. All rights reserved.</span>
+        <div class="footer-links">
+            <a href="https://github.com" target="_blank">GitHub</a>
+            <a href="https://linkedin.com" target="_blank">LinkedIn</a>
+            <a href="https://tryhackme.com" target="_blank">TryHackMe</a>
+        </div>
+    </footer>
+
+    <script>
+        function submitForm() {
+            const name    = document.getElementById('fname').value.trim();
+            const email   = document.getElementById('femail').value.trim();
+            const msg     = document.getElementById('fmessage').value.trim();
+            if (!name || !email || !msg) {
+                alert('Please fill in all required fields.');
+                return;
+            }
+            document.getElementById('contact-form').style.display = 'none';
+            document.getElementById('form-success').style.display = 'block';
+        }
+
+        // Smooth scroll-reveal
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(e => {
+                if (e.isIntersecting) {
+                    e.target.style.opacity = '1';
+                    e.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll(
+            '.skill-card, .project-card, .stat-card, .portfolio-item, .testimonial-card'
+        ).forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(16px)';
+            el.style.transition = 'opacity 0.5s ease, transform 0.5s ease, border-color 0.25s';
+            observer.observe(el);
+        });
+
+        // ── CAROUSELS ──
+        // Works for any element with class "carousel-track" paired with
+        // buttons using data-carousel-prev="<track-id>" / data-carousel-next="<track-id>".
+        // To wire up a brand-new carousel elsewhere on the page, just reuse this same markup pattern.
+        function scrollCarousel(trackId, direction) {
+            const track = document.getElementById(trackId);
+            if (!track) return;
+            const firstCard = track.firstElementChild;
+            const cardWidth = firstCard ? firstCard.getBoundingClientRect().width : track.clientWidth * 0.9;
+            const gap = 24; // matches the 1.5rem gap set in .carousel-track
+            track.scrollBy({ left: direction * (cardWidth + gap), behavior: 'smooth' });
+        }
+
+        document.querySelectorAll('[data-carousel-prev]').forEach(btn => {
+            btn.addEventListener('click', () => scrollCarousel(btn.dataset.carouselPrev, -1));
+        });
+        document.querySelectorAll('[data-carousel-next]').forEach(btn => {
+            btn.addEventListener('click', () => scrollCarousel(btn.dataset.carouselNext, 1));
+        });
+
+        // ── DAY / NIGHT MODE ──
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const themeIcon = document.getElementById('theme-toggle-icon');
+
+        function applyTheme(theme) {
+            if (theme === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                themeIcon.innerHTML = '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>';
+            } else {
+                document.documentElement.removeAttribute('data-theme');
+                themeIcon.innerHTML = '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>';
+            }
+        }
+
+        const savedTheme = localStorage.getItem('theme');
+        const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        applyTheme(savedTheme || (systemPrefersDark ? 'dark' : 'light'));
+
+        themeToggleBtn.addEventListener('click', () => {
+            const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+            const next = isDark ? 'light' : 'dark';
+            applyTheme(next);
+            localStorage.setItem('theme', next);
+            if (window.updateHeroCursorFxColor) window.updateHeroCursorFxColor();
+        });
+
+        // ── HERO CURSOR-FOLLOW GRID TRAIL ──
+        // Lights up the grid squares in the hero background as the cursor moves — like a
+        // trail of scales that flick brighter then fade behind it. Runs entirely on a
+        // <canvas> (not DOM elements) and only animates while the mouse is over the hero
+        // section, so it stays cheap and won't cause jank elsewhere on the page.
+        (function heroCursorFx() {
+            const hero = document.getElementById('hero');
+            const canvas = document.getElementById('hero-cursor-fx');
+            if (!hero || !canvas || !canvas.getContext) return;
+
+            const ctx = canvas.getContext('2d');
+            const CELL = 48;              // matches .hero-grid-bg's 48px squares
+            const TRAIL_LIFESPAN = 750;   // ms a lit cell stays visible before fully fading
+            const MAX_TRAIL = 24;         // cap so a fast swipe can't grow the array unbounded
+
+            const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            if (prefersReducedMotion) return;
+
+            let dpr = Math.min(window.devicePixelRatio || 1, 2);
+            let width = 0, height = 0;
+            let trail = [];               // { col, row, time }
+            let lastCol = null, lastRow = null;
+            let rafId = null;
+            let running = false;
+            let accentColor = '26, 107, 90'; // rgb triplet, kept in sync with --accent
+
+            function updateColor() {
+                const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+                accentColor = isDark ? '53, 178, 149' : '26, 107, 90';
+            }
+            window.updateHeroCursorFxColor = updateColor;
+            updateColor();
+
+            function resize() {
+                const rect = hero.getBoundingClientRect();
+                width = rect.width;
+                height = rect.height;
+                canvas.width = Math.round(width * dpr);
+                canvas.height = Math.round(height * dpr);
+                canvas.style.width = width + 'px';
+                canvas.style.height = height + 'px';
+                ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+            }
+            resize();
+            window.addEventListener('resize', resize);
+
+            function draw() {
+                ctx.clearRect(0, 0, width, height);
+                const now = performance.now();
+
+                trail = trail.filter(p => (now - p.time) < TRAIL_LIFESPAN);
+
+                for (const p of trail) {
+                    const age = now - p.time;
+                    const t = age / TRAIL_LIFESPAN;      // 0 = fresh, 1 = expired
+                    const alpha = (1 - t) * 0.55;
+                    // Scale grows slightly as the point lands, then eases back down —
+                    // gives it a "scale flick" feel rather than a flat static square.
+                    const scale = 1.08 - t * 0.35;
+                    const size = CELL * scale;
+                    const cx = p.col * CELL + CELL / 2;
+                    const cy = p.row * CELL + CELL / 2;
+                    const half = size / 2;
+
+                    ctx.fillStyle = 'rgba(' + accentColor + ', ' + (alpha * 0.55) + ')';
+                    ctx.strokeStyle = 'rgba(' + accentColor + ', ' + alpha + ')';
+                    ctx.lineWidth = 1;
+                    ctx.beginPath();
+                    if (ctx.roundRect) {
+                        ctx.roundRect(cx - half, cy - half, size, size, 6);
+                    } else {
+                        ctx.rect(cx - half, cy - half, size, size);
+                    }
+                    ctx.fill();
+                    ctx.stroke();
+                }
+
+                if (trail.length > 0 && running) {
+                    rafId = requestAnimationFrame(draw);
+                } else {
+                    rafId = null;
+                }
+            }
+
+            function ensureLoop() {
+                if (rafId === null) rafId = requestAnimationFrame(draw);
+            }
+
+            function handleMove(clientX, clientY) {
+                const rect = hero.getBoundingClientRect();
+                const x = clientX - rect.left;
+                const y = clientY - rect.top;
+                const col = Math.floor(x / CELL);
+                const row = Math.floor(y / CELL);
+
+                if (col === lastCol && row === lastRow) return; // only add a new point when the cursor crosses into a new cell
+                lastCol = col;
+                lastRow = row;
+
+                trail.push({ col: col, row: row, time: performance.now() });
+                if (trail.length > MAX_TRAIL) trail.shift();
+                ensureLoop();
+            }
+
+            hero.addEventListener('mouseenter', function () { running = true; ensureLoop(); });
+            hero.addEventListener('mousemove', function (e) { handleMove(e.clientX, e.clientY); });
+            hero.addEventListener('mouseleave', function () {
+                running = false; // let any remaining trail points finish fading, then the loop stops itself
+                lastCol = null;
+                lastRow = null;
+            });
+        })();
+    </script>
+    <script src="chatbot-data.js"></script>
+    <script src="chatbot-engine.js"></script>
+    <script src="chatbot-ui.js"></script>
+</body>
+</html>
