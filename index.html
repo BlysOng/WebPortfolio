@@ -742,6 +742,90 @@
             text-transform: uppercase; color: var(--accent); opacity: 0.6;
         }
 
+        /* ---- Automation "flow" visual — replaces screenshots on Zapier / n8n cards ---- */
+        .portfolio-flow {
+            width: 100%; height: 100%;
+            display: flex; align-items: center; justify-content: center;
+            padding: 0.75rem 1rem;
+        }
+        .portfolio-flow-track {
+            display: flex; align-items: flex-start; justify-content: center;
+            flex-wrap: wrap; row-gap: 0.6rem;
+        }
+        .flow-node {
+            display: flex; flex-direction: column; align-items: center;
+            gap: 0.3rem; width: 56px; flex-shrink: 0;
+        }
+        .flow-node-mark {
+            width: 32px; height: 32px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-family: var(--font-display); font-weight: 700; font-size: 10px;
+            color: #fff; border: 0.5px solid var(--border-strong);
+            flex-shrink: 0;
+        }
+        .flow-node-label {
+            font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.02em;
+            color: var(--muted); text-align: center; line-height: 1.25;
+        }
+        .flow-connector {
+            position: relative; width: 20px; height: 1px;
+            margin: 16px 3px 0;
+            background-image: linear-gradient(90deg, var(--border-strong) 60%, transparent 0%);
+            background-size: 6px 1px; background-repeat: repeat-x;
+            flex-shrink: 0;
+        }
+        .flow-pulse {
+            position: absolute; top: -2.5px; left: 0;
+            width: 6px; height: 6px; border-radius: 50%;
+            background: var(--accent2);
+            animation: flow-travel 2.2s linear infinite;
+        }
+        @keyframes flow-travel {
+            0%   { left: -3px; opacity: 0; }
+            12%  { opacity: 1; }
+            88%  { opacity: 1; }
+            100% { left: calc(100% - 2px); opacity: 0; }
+        }
+
+        /* ---- Website "browser" mock — replaces screenshots on Web Development cards ---- */
+        .portfolio-frame {
+            width: 100%; height: 100%;
+            display: flex; flex-direction: column;
+        }
+        .portfolio-frame-bar {
+            display: flex; align-items: center; gap: 5px;
+            padding: 0.5rem 0.65rem;
+            background: var(--surface2);
+            border-bottom: 0.5px solid var(--border);
+        }
+        .portfolio-frame-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--border-strong); }
+        .portfolio-frame-url {
+            margin-left: 0.4rem;
+            font-family: var(--font-mono); font-size: 9px; color: var(--muted);
+            background: var(--bg); border-radius: 20px; padding: 3px 10px;
+            flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+        }
+        .portfolio-frame-body {
+            flex: 1; padding: 0.75rem;
+            display: flex; flex-direction: column; gap: 0.4rem;
+            background: var(--bg);
+        }
+        .portfolio-frame-line { height: 6px; border-radius: 4px; background: var(--surface2); }
+        .portfolio-frame-line.short { width: 40%; }
+        .portfolio-frame-block {
+            flex: 1; border-radius: 6px;
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            opacity: 0.85; position: relative; overflow: hidden;
+        }
+        .portfolio-frame-block::after {
+            content: ''; position: absolute; inset: 0;
+            background: linear-gradient(120deg, transparent 40%, rgba(255,255,255,0.25) 50%, transparent 60%);
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .flow-pulse { animation: none; opacity: 1; }
+        }
+
         .portfolio-meta {
             padding: 1rem 1.25rem 1.25rem;
         }
@@ -1452,8 +1536,15 @@
 
                     <div class="portfolio-item">
                         <div class="portfolio-thumb-placeholder">
-                            <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
-                            <span>Add Screenshot</span>
+                            <div class="portfolio-flow">
+                                <div class="portfolio-flow-track">
+                                    <div class="flow-node"><span class="flow-node-mark" style="background:#FF4A00">Z</span><span class="flow-node-label">Zapier</span></div>
+                                    <span class="flow-connector"><span class="flow-pulse" style="animation-delay:0s"></span></span>
+                                    <div class="flow-node"><span class="flow-node-mark" style="background:#006BFF">C</span><span class="flow-node-label">Calendly/G Cal</span></div>
+                                    <span class="flow-connector"><span class="flow-pulse" style="animation-delay:0.35s"></span></span>
+                                    <div class="flow-node"><span class="flow-node-mark" style="background:#EA4335">G</span><span class="flow-node-label">Gmail</span></div>
+                                </div>
+                            </div>
                         </div>
                         <div class="portfolio-meta">
                             <div class="portfolio-meta-tag">Zapier ● Calendly/G Calendar ● Gmail </div>
@@ -1462,11 +1553,20 @@
                                 ensuring seamless coordination and reduced no-shows. </div>
                         </div>
                     </div>
-
+                            
                     <div class="portfolio-item">
                         <div class="portfolio-thumb-placeholder">
-                            <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
-                            <span>Add Screenshot</span>
+                            <div class="portfolio-flow">
+                                <div class="portfolio-flow-track">
+                                    <div class="flow-node"><span class="flow-node-mark" style="background:#FF4A00">Z</span><span class="flow-node-label">Zapier</span></div>
+                                    <span class="flow-connector"><span class="flow-pulse" style="animation-delay:0s"></span></span>
+                                    <div class="flow-node"><span class="flow-node-mark" style="background:#FF6100">J</span><span class="flow-node-label">JotForms</span></div>
+                                    <span class="flow-connector"><span class="flow-pulse" style="animation-delay:0.3s"></span></span>
+                                    <div class="flow-node"><span class="flow-node-mark" style="background:#34A853">S</span><span class="flow-node-label">Sheets</span></div>
+                                    <span class="flow-connector"><span class="flow-pulse" style="animation-delay:0.6s"></span></span>
+                                    <div class="flow-node"><span class="flow-node-mark" style="background:#EA4335">G</span><span class="flow-node-label">Gmail</span></div>
+                                </div>
+                            </div>
                         </div>
                         <div class="portfolio-meta">
                             <div class="portfolio-meta-tag">Zapier ● JotForms ● Sheets ● Gmail</div>
@@ -1475,11 +1575,20 @@
                                 automated multi-channel follow-ups to maximize client conversion rates.</div>
                         </div>
                     </div>
-
+                            
                     <div class="portfolio-item">
                         <div class="portfolio-thumb-placeholder">
-                            <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
-                            <span>Add Screenshot</span>
+                            <div class="portfolio-flow">
+                                <div class="portfolio-flow-track">
+                                    <div class="flow-node"><span class="flow-node-mark" style="background:#FF4A00">Z</span><span class="flow-node-label">Zapier</span></div>
+                                    <span class="flow-connector"><span class="flow-pulse" style="animation-delay:0s"></span></span>
+                                    <div class="flow-node"><span class="flow-node-mark" style="background:#0084FF">M</span><span class="flow-node-label">FB Messenger</span></div>
+                                    <span class="flow-connector"><span class="flow-pulse" style="animation-delay:0.3s"></span></span>
+                                    <div class="flow-node"><span class="flow-node-mark" style="background:#10A37F">AI</span><span class="flow-node-label">OpenAI</span></div>
+                                    <span class="flow-connector"><span class="flow-pulse" style="animation-delay:0.6s"></span></span>
+                                    <div class="flow-node"><span class="flow-node-mark" style="background:#EA4335">G</span><span class="flow-node-label">Gmail</span></div>
+                                </div>
+                            </div>
                         </div>
                         <div class="portfolio-meta">
                             <div class="portfolio-meta-tag">Zapier ● FB Messenger ● OpenAI ● Gmail</div>
@@ -1491,8 +1600,13 @@
 
                     <div class="portfolio-item">
                         <div class="portfolio-thumb-placeholder">
-                            <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
-                            <span>Add Screenshot</span>
+                            <div class="portfolio-flow">
+                                <div class="portfolio-flow-track">
+                                    <div class="flow-node"><span class="flow-node-mark" style="background:#FF4A00">Z</span><span class="flow-node-label">Zapier</span></div>
+                                    <span class="flow-connector"><span class="flow-pulse" style="animation-delay:0s"></span></span>
+                                    <div class="flow-node"><span class="flow-node-mark" style="background:#FF7A59">H</span><span class="flow-node-label">HubSpot</span></div>
+                                </div>
+                            </div>
                         </div>
                         <div class="portfolio-meta">
                             <div class="portfolio-meta-tag">Zapier ● Hubspot</div>
@@ -1504,8 +1618,17 @@
 
                     <div class="portfolio-item">
                         <div class="portfolio-thumb-placeholder">
-                            <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
-                            <span>Add Screenshot</span>
+                            <div class="portfolio-flow">
+                                <div class="portfolio-flow-track">
+                                    <div class="flow-node"><span class="flow-node-mark" style="background:#FF4A00">Z</span><span class="flow-node-label">Zapier</span></div>
+                                    <span class="flow-connector"><span class="flow-pulse" style="animation-delay:0s"></span></span>
+                                    <div class="flow-node"><span class="flow-node-mark" style="background:#4A154B">S</span><span class="flow-node-label">Slack</span></div>
+                                    <span class="flow-connector"><span class="flow-pulse" style="animation-delay:0.3s"></span></span>
+                                    <div class="flow-node"><span class="flow-node-mark" style="background:#EA4335">G</span><span class="flow-node-label">Gmail</span></div>
+                                    <span class="flow-connector"><span class="flow-pulse" style="animation-delay:0.6s"></span></span>
+                                    <div class="flow-node"><span class="flow-node-mark" style="background:#34A853">S</span><span class="flow-node-label">Sheets</span></div>
+                                </div>
+                            </div>
                         </div>
                         <div class="portfolio-meta">
                             <div class="portfolio-meta-tag">Zapier ● Slack ● Gmail ● Sheets </div>
@@ -1536,8 +1659,15 @@
 
                     <div class="portfolio-item">
                         <div class="portfolio-thumb-placeholder">
-                            <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
-                            <span>Add Screenshot</span>
+                            <div class="portfolio-flow">
+                                <div class="portfolio-flow-track">
+                                    <div class="flow-node"><span class="flow-node-mark" style="background:#EA4B71">n8n</span><span class="flow-node-label">n8n</span></div>
+                                    <span class="flow-connector"><span class="flow-pulse" style="animation-delay:0s"></span></span>
+                                    <div class="flow-node"><span class="flow-node-mark" style="background:#10A37F">AI</span><span class="flow-node-label">OpenAI</span></div>
+                                    <span class="flow-connector"><span class="flow-pulse" style="animation-delay:0.3s"></span></span>
+                                    <div class="flow-node"><span class="flow-node-mark" style="background:#6b7280">W</span><span class="flow-node-label">Webhooks</span></div>
+                                </div>
+                            </div>
                         </div>
                         <div class="portfolio-meta">
                             <div class="portfolio-meta-tag">n8n ● OpenAI ● Webhooks</div>
@@ -1549,8 +1679,17 @@
 
                     <div class="portfolio-item">
                         <div class="portfolio-thumb-placeholder">
-                            <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
-                            <span>Add Screenshot</span>
+                            <div class="portfolio-flow">
+                                <div class="portfolio-flow-track">
+                                    <div class="flow-node"><span class="flow-node-mark" style="background:#EA4B71">n8n</span><span class="flow-node-label">n8n</span></div>
+                                    <span class="flow-connector"><span class="flow-pulse" style="animation-delay:0s"></span></span>
+                                    <div class="flow-node"><span class="flow-node-mark" style="background:#5865F2">D</span><span class="flow-node-label">Discord</span></div>
+                                    <span class="flow-connector"><span class="flow-pulse" style="animation-delay:0.3s"></span></span>
+                                    <div class="flow-node"><span class="flow-node-mark" style="background:#6b7280">W</span><span class="flow-node-label">Webhooks</span></div>
+                                    <span class="flow-connector"><span class="flow-pulse" style="animation-delay:0.6s"></span></span>
+                                    <div class="flow-node"><span class="flow-node-mark" style="background:#EA4335">G</span><span class="flow-node-label">Gmail</span></div>
+                                </div>
+                            </div>
                         </div>
                         <div class="portfolio-meta">
                             <div class="portfolio-meta-tag">n8n ● Discord ● Webhooks ● Gmail</div>
@@ -1562,8 +1701,17 @@
 
                     <div class="portfolio-item">
                         <div class="portfolio-thumb-placeholder">
-                            <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
-                            <span>Add Screenshot</span>
+                            <div class="portfolio-flow">
+                                <div class="portfolio-flow-track">
+                                    <div class="flow-node"><span class="flow-node-mark" style="background:#EA4B71">n8n</span><span class="flow-node-label">n8n</span></div>
+                                    <span class="flow-connector"><span class="flow-pulse" style="animation-delay:0s"></span></span>
+                                    <div class="flow-node"><span class="flow-node-mark" style="background:#6b7280">W</span><span class="flow-node-label">Webhooks</span></div>
+                                    <span class="flow-connector"><span class="flow-pulse" style="animation-delay:0.3s"></span></span>
+                                    <div class="flow-node"><span class="flow-node-mark" style="background:#EA4335">G</span><span class="flow-node-label">Gmail</span></div>
+                                    <span class="flow-connector"><span class="flow-pulse" style="animation-delay:0.6s"></span></span>
+                                    <div class="flow-node"><span class="flow-node-mark" style="background:#5865F2">D</span><span class="flow-node-label">Discord/Telegram</span></div>
+                                </div>
+                            </div>
                         </div>
                         <div class="portfolio-meta">
                             <div class="portfolio-meta-tag">n8n ● Webhooks ● Gmail ● Discord/Telegram</div>
@@ -1595,8 +1743,19 @@
 
                     <div class="portfolio-item">
                         <div class="portfolio-thumb-placeholder">
-                            <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
-                            <span>Add Screenshot</span>
+                            <div class="portfolio-frame">
+                                <div class="portfolio-frame-bar">
+                                    <span class="portfolio-frame-dot"></span>
+                                    <span class="portfolio-frame-dot"></span>
+                                    <span class="portfolio-frame-dot"></span>
+                                    <span class="portfolio-frame-url">blysong.github.io/JapaneseStore</span>
+                                </div>
+                                <div class="portfolio-frame-body">
+                                    <div class="portfolio-frame-line short"></div>
+                                    <div class="portfolio-frame-line"></div>
+                                    <div class="portfolio-frame-block"></div>
+                                </div>
+                            </div>
                         </div>
                         <div class="portfolio-meta">
                             <div class="portfolio-meta-tag">Web Development</div>
@@ -1604,7 +1763,7 @@
                             <div class="portfolio-meta-desc">A specialized web portal built for client onboarding. It allows event hosts to browse 
                                 a curated menu of event services, check real-time calendar availability, and book consultation calls to lock down their event planning.</div>
                             <!-- Replace href="#" with the live site URL -->
-                            <a href="#" target="_blank" rel="noopener noreferrer" class="portfolio-visit-link" onclick="event.stopPropagation()">
+                            <a href="https://blysong.github.io/JapaneseStore/" target="_blank" rel="noopener noreferrer" class="portfolio-visit-link" onclick="event.stopPropagation()">
                                 Visit Website
                                 <svg viewBox="0 0 24 24"><path d="M7 17L17 7M7 7h10v10"/></svg>
                             </a>
@@ -1613,8 +1772,19 @@
 
                     <div class="portfolio-item">
                         <div class="portfolio-thumb-placeholder">
-                            <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
-                            <span>Add Screenshot</span>
+                            <div class="portfolio-frame">
+                                <div class="portfolio-frame-bar">
+                                    <span class="portfolio-frame-dot"></span>
+                                    <span class="portfolio-frame-dot"></span>
+                                    <span class="portfolio-frame-dot"></span>
+                                    <span class="portfolio-frame-url">blysong.github.io/JapaneseStore</span>
+                                </div>
+                                <div class="portfolio-frame-body">
+                                    <div class="portfolio-frame-line short"></div>
+                                    <div class="portfolio-frame-line"></div>
+                                    <div class="portfolio-frame-block"></div>
+                                </div>
+                            </div>
                         </div>
                         <div class="portfolio-meta">
                             <div class="portfolio-meta-tag">Web Development</div>
@@ -1622,7 +1792,7 @@
                             <div class="portfolio-meta-desc">A fully responsive e-commerce storefront designed to bring authentic Japanese products directly to a global audience. 
                                 It features dynamic product filtering, user friendly checkout pipelines, and a secure cart system built to handle everything from snacks to collectibles.</div>
                             <!-- Replace href="#" with the live site URL -->
-                            <a href="#" target="_blank" rel="noopener noreferrer" class="portfolio-visit-link" onclick="event.stopPropagation()">
+                            <a href="https://blysong.github.io/JapaneseStore/" target="_blank" rel="noopener noreferrer" class="portfolio-visit-link" onclick="event.stopPropagation()">
                                 Visit Website
                                 <svg viewBox="0 0 24 24"><path d="M7 17L17 7M7 7h10v10"/></svg>
                             </a>
@@ -1631,8 +1801,19 @@
 
                     <div class="portfolio-item">
                         <div class="portfolio-thumb-placeholder">
-                            <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
-                            <span>Add Screenshot</span>
+                            <div class="portfolio-frame">
+                                <div class="portfolio-frame-bar">
+                                    <span class="portfolio-frame-dot"></span>
+                                    <span class="portfolio-frame-dot"></span>
+                                    <span class="portfolio-frame-dot"></span>
+                                    <span class="portfolio-frame-url">blysong.github.io/Ghibli</span>
+                                </div>
+                                <div class="portfolio-frame-body">
+                                    <div class="portfolio-frame-line short"></div>
+                                    <div class="portfolio-frame-line"></div>
+                                    <div class="portfolio-frame-block"></div>
+                                </div>
+                            </div>
                         </div>
                         <div class="portfolio-meta">
                             <div class="portfolio-meta-tag">Web Development</div>
@@ -1640,7 +1821,7 @@
                             <div class="portfolio-meta-desc">A dedicated streaming and digital marketplace engineered exclusively for Studio Ghibli fans. Think Netflix, but entirely customized 
                                 for the Ghibli library—featuring a beautiful, immersive media player, curated collections, and lightning-fast video delivery.</div>
                             <!-- Replace href="#" with the live site URL -->
-                            <a href="#" target="_blank" rel="noopener noreferrer" class="portfolio-visit-link" onclick="event.stopPropagation()">
+                            <a href="https://blysong.github.io/Ghibli/" target="_blank" rel="noopener noreferrer" class="portfolio-visit-link" onclick="event.stopPropagation()">
                                 Visit Website
                                 <svg viewBox="0 0 24 24"><path d="M7 17L17 7M7 7h10v10"/></svg>
                             </a>
