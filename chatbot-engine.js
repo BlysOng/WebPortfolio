@@ -98,9 +98,7 @@ function getRuleResponse(intent) {
 // ============================================================
 
 async function getAIResponse(userMessage, history) {
-
   try {
-
     const response = await fetch(
       "https://dexiwi.app.n8n.cloud/webhook/rag-chatbot",
       {
@@ -111,76 +109,31 @@ async function getAIResponse(userMessage, history) {
         },
 
         body: JSON.stringify({
-
-          // Current user message
           message: userMessage,
-
-          // Previous conversation
           history: history
-
         })
-
       }
     );
 
-
-    // ========================================================
-    // CHECK HTTP RESPONSE
-    // ========================================================
-
     if (!response.ok) {
-
       throw new Error(
         `n8n request failed with status ${response.status}`
       );
-
     }
-
-
-    // ========================================================
-    // GET JSON RESPONSE FROM N8N
-    // ========================================================
 
     const data = await response.json();
 
-
-    // ========================================================
-    // CHECK FOR RESPONSE
-    // ========================================================
-
     if (!data.reply) {
-
-      console.error(
-        "Invalid n8n response:",
-        data
-      );
-
-      throw new Error(
-        "No reply received from n8n"
-      );
-
+      throw new Error("No reply received from n8n");
     }
-
-
-    // ========================================================
-    // RETURN AI RESPONSE
-    // ========================================================
 
     return data.reply;
 
-
   } catch (error) {
-
-    console.error(
-      "AI / n8n request error:",
-      error
-    );
-
+    console.error("AI / n8n request error:", error);
 
     return "Sorry, I'm having trouble processing your request right now. Please try again.";
-
   }
-
 }
 
 
