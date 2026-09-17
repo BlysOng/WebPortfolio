@@ -48,7 +48,7 @@ async function getAIResponse(history) {
 
   try {
 
-    const response = await fetch("YOUR_N8N_WEBHOOK_URL", {
+    const response = await fetch("https://dexiwi.app.n8n.cloud/webhook/rag-chatbot", {
       method: "POST",
 
       headers: {
