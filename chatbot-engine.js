@@ -1,11 +1,18 @@
-// Classify intent from user message
+// ============================================================
+// INTENT CLASSIFICATION
+// ============================================================
+
 function classifyIntent(message) {
   const lower = message.toLowerCase();
+
   let bestMatch = null;
   let bestScore = 0;
 
   for (const [intent, data] of Object.entries(INTENTS)) {
-    const score = data.keywords.filter(kw => lower.includes(kw)).length;
+    const score = data.keywords.filter(kw =>
+      lower.includes(kw.toLowerCase())
+    ).length;
+
     if (score > bestScore) {
       bestScore = score;
       bestMatch = intent;
@@ -13,111 +20,165 @@ function classifyIntent(message) {
   }
 
   return bestScore >= 1
-    ? { intent: bestMatch, confidence: "high" }
-    : { intent: "unknown", confidence: "low" };
+    ? {
+        intent: bestMatch,
+        confidence: "high"
+      }
+    : {
+        intent: "unknown",
+        confidence: "low"
+      };
 }
 
-// Get rule-based response
+
+// ============================================================
+// RULE-BASED RESPONSE
+// ============================================================
+
 function getRuleResponse(intent) {
   return RULES[intent] ?? null;
 }
 
-// Call Claude AI for unknown questions
-async function getAIResponse(userMessage, history) {
-  const messages = [...history, { role: "user", content: userMessage }];
 
-  const res = await fetch("https://api.anthropic.com/v1/messages", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      model: "claude-sonnet-4-6",
-      max_tokens: 1000,
-      system: "You are a helpful, friendly assistant for this website. Keep answers short and clear.",
-      messages: messages,
-    }),
-  });
+// ============================================================
+// CALL N8N → CLAUDE
+// ============================================================
 
-  const data = await res.json();
-  return data.content[0].text;
-}
+async function getAIResponse(history) {
 
-// Conversation history (kept in memory while page is open)
-const conversationHistory = [];
+  try {
 
-// Main handler — call this on every user message
-async function handleMessage(userMessage) {
-  conversationHistory.push({ role: "user", content: userMessage });
+    const response = await fetch("YOUR_N8N_WEBHOOK_URL", {
+      method: "POST",
 
-  let reply;
-  const { intent, confidence } = classifyIntent(userMessage);
+      headers: {
+        "Content-Type": "application/json"
+      },
 
-  if (confidence === "high") {
-    reply = getRuleResponse(intent);
-  } else {
-    reply = await getAIResponse(userMessage, conversationHistory.slice(-10));
-  }
+      body: JSON.stringify({
+        history: history
+      })
+    });
 
-  conversationHistory.push({ role: "assistant", content: reply });
-  return reply;
-}// Classify intent from user message
-function classifyIntent(message) {
-  const lower = message.toLowerCase();
-  let bestMatch = null;
-  let bestScore = 0;
 
-  for (const [intent, data] of Object.entries(INTENTS)) {
-    const score = data.keywords.filter(kw => lower.includes(kw)).length;
-    if (score > bestScore) {
-      bestScore = score;
-      bestMatch = intent;
+    // Check if n8n returned an error
+    if (!response.ok) {
+      throw new Error(
+        `n8n request failed: ${response.status}`
+      );
     }
+
+
+    const data = await response.json();
+
+
+    // Expected n8n response:
+    // {
+    //   "reply": "Claude's response"
+    // }
+
+    if (!data.reply) {
+      throw new Error("No reply received from n8n");
+    }
+
+
+    return data.reply;
+
+  } catch (error) {
+
+    console.error("AI request error:", error);
+
+    return "Sorry, I'm having trouble processing your request right now. Please try again.";
   }
-
-  return bestScore >= 1
-    ? { intent: bestMatch, confidence: "high" }
-    : { intent: "unknown", confidence: "low" };
 }
 
-// Get rule-based response
-function getRuleResponse(intent) {
-  return RULES[intent] ?? null;
-}
 
-// Call Claude AI for unknown questions
-async function getAIResponse(userMessage, history) {
-  const messages = [...history, { role: "user", content: userMessage }];
+// ============================================================
+// CONVERSATION HISTORY
+// ============================================================
 
-  const res = await fetch("https://api.anthropic.com/v1/messages", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      model: "claude-sonnet-4-6",
-      max_tokens: 1000,
-      system: "You are a helpful, friendly assistant for this website. Keep answers short and clear.",
-      messages: messages,
-    }),
-  });
+// Conversation history exists only while
+// the webpage remains open.
 
-  const data = await res.json();
-  return data.content[0].text;
-}
-
-// Conversation history (kept in memory while page is open)
 const conversationHistory = [];
 
-// Main handler — call this on every user message
+
+// ============================================================
+// MAIN MESSAGE HANDLER
+// ============================================================
+
 async function handleMessage(userMessage) {
-  conversationHistory.push({ role: "user", content: userMessage });
 
-  let reply;
-  const { intent, confidence } = classifyIntent(userMessage);
-
-  if (confidence === "high") {
-    reply = getRuleResponse(intent);
-  } else {
-    reply = await getAIResponse(userMessage, conversationHistory.slice(-10));
+  // Ignore empty messages
+  if (!userMessage || !userMessage.trim()) {
+    return "Please enter a message.";
   }
 
-  conversationHistory.push({ role: "assistant", content: reply });
+
+  // Add user's message to conversation history
+  conversationHistory.push({
+    role: "user",
+    content: userMessage
+  });
+
+
+  let reply;
+
+
+  // ==========================================================
+  // CLASSIFY USER MESSAGE
+  // ==========================================================
+
+  const {
+    intent,
+    confidence
+  } = classifyIntent(userMessage);
+
+
+  // ==========================================================
+  // USE RULE-BASED RESPONSE
+  // ==========================================================
+
+  if (confidence === "high") {
+
+    reply = getRuleResponse(intent);
+
+
+    // If an intent was detected but no rule exists,
+    // send it to AI instead.
+    if (!reply) {
+
+      reply = await getAIResponse(
+        conversationHistory.slice(-10)
+      );
+
+    }
+
+  }
+
+
+  // ==========================================================
+  // USE AI FOR UNKNOWN QUESTIONS
+  // ==========================================================
+
+  else {
+
+    reply = await getAIResponse(
+      conversationHistory.slice(-10)
+    );
+
+  }
+
+
+  // ==========================================================
+  // SAVE ASSISTANT RESPONSE
+  // ==========================================================
+
+  conversationHistory.push({
+    role: "assistant",
+    content: reply
+  });
+
+
   return reply;
 }
